@@ -17,7 +17,8 @@ jobs:
     - name: Build the Dock
       run: |
         docker pull devrvk/so-decompiler:latest
-        docker run -v ./uploads:/decompile/uploads -v ./output:/decompile/output decompiler decompile /decompile/uploads/libMCGG.so /decompile/output
+        docker run -v ./uploads:/decompile/uploads -v ./output:/decompile/output devrvk/so-decompiler decompile /decompile/uploads/libMCGG.so /decompile/output
+        sudo chmod -R 777 ./output
         
     - name: Upload build artifact
       uses: actions/upload-artifact@v4
