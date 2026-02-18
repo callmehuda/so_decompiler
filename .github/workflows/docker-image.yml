@@ -1,0 +1,26 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build the Dock
+      run: |
+        docker pull devrvk/so-decompiler:latest
+        docker run -v ./uploads:/decompile/uploads -v ./output:/decompile/output decompiler decompile /decompile/uploads/libMCGG.so /decompile/output
+        
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: decompiled
+        path: ./output
